@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /minecraft
 
-# Playit.gg'nin o Docker'da kullandığı 0.17 sürüm dosyasını doğrudan indiriyoruz
-RUN wget -O playit https://github.com/playit-cloud/playit-agent/releases/download/v0.1.7/playit-linux-amd64 && \
+# Playit 0.17 sürümünün doğru indirme linki (v0.1.7 değil, doğrudan v0.17)
+RUN wget -O playit https://github.com/playit-cloud/playit-agent/releases/download/v0.17/playit-linux-amd64 && \
     chmod +x playit
 
 # Geyser Bedrock paketini indiriyoruz
@@ -20,8 +20,8 @@ RUN wget -O Geyser.jar https://download.geysermc.org/v2/projects/geyser/versions
 RUN java -jar Geyser.jar --noop && \
     if [ -f config.yml ]; then sed -i 's/port: 19132/port: 10000/g' config.yml; fi
 
-# Render'ın zorunlu HTTP port taraması için 10000'i açıyoruz
+# Render için portu aç
 EXPOSE 10000
 
-# Playit 0.17 sürümünün orijinal komut yapısıyla tüneli ve sunucuyu aynı anda tetikliyoruz
+# Hem tüneli hem de sunucuyu aynı anda tetikliyoruz
 CMD ./playit --secret "$SECRET_KEY" > playit.log & java -Xmx400M -Xms400M -jar Geyser.jar
