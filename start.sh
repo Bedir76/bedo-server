@@ -15,8 +15,8 @@ if [ -z "$SECRET_KEY" ]; then
     exit 1
 fi
 
-# Playit tünelini UDP destekli olarak arka planda başlat
-playit --secret "$SECRET_KEY" > playit.log &
+# Yeni playit sürümüne uygun komut yapısı ile arka planda UDP tünelini başlatıyoruz
+playit run --secret-key "$SECRET_KEY" > playit.log &
 
 echo "========================================="
 echo "=== BEDROCK SUNUCUSU ACILIYOR ==="
@@ -25,4 +25,3 @@ echo "========================================="
 
 # 512MB RAM sınırını aşmamak için sunucuyu 400MB ile sınırlıyoruz
 java -Xmx400M -Xms400M -jar Geyser.jar
-
